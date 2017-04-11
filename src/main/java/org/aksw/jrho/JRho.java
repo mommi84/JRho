@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class JRho {
 	
-	protected static Logger logger = LoggerFactory.getLogger(SimpleJRhoTest.class);
+	protected static Logger logger = LoggerFactory.getLogger(JRho.class);
 	
 	protected Set<JRhoObject> objects;
 	
