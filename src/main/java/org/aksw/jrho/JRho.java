@@ -3,11 +3,16 @@ package org.aksw.jrho;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Tommaso Soru {@literal tsoru@informatik.uni-leipzig.de}
  *
  */
 public abstract class JRho {
+	
+	protected static Logger logger = LoggerFactory.getLogger(SimpleJRhoTest.class);
 	
 	protected Set<JRhoObject> objects;
 	

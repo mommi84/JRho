@@ -1,15 +1,20 @@
 package org.aksw.jrho;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
 
+import org.aksw.jrho.JRho;
+import org.aksw.jrho.JRhoObject;
+import org.aksw.jrho.Node;
 import org.junit.Test;
 
 /**
  * @author Tommaso Soru {@literal tsoru@informatik.uni-leipzig.de}
  *
  */
-public class JRhoTest {
+public class CountingJRhoTest {
 
 	@Test
 	public void test() {
@@ -22,33 +27,33 @@ public class JRhoTest {
 		}
 
 		// execute refinement
-		MyJRho jrho = new MyJRho(comp);
+		CountingJRho jrho = new CountingJRho(comp);
 		jrho.refine();
-		
+
+		assertTrue(jrho.count == (int) Math.pow(2, comp.size()));
+
 	}
 
 }
 
-class MyJRho extends JRho {
-	
-	final static Integer PRUNE = 3;
-	
-	public MyJRho(Set<JRhoObject> objects) {
+class CountingJRho extends JRho {
+
+	Integer count = 0;
+
+	public CountingJRho(Set<JRhoObject> objects) {
 		super(objects);
 	}
 
 	@Override
 	protected boolean process(Node node) {
-		
-		System.out.println("thread: " + Thread.currentThread().getName()
-				+ "; refining: " + node + "; size: " + node.size()
-				+ "; last added: " + node.getLast());
 
-		if (node.size() >= PRUNE) {
-			// custom pruning criteria
-			return false;
+		synchronized (count) {
+			count++;
 		}
 
+		logger.info("refining: " + node + "; size: " + node.size()
+				+ "; last added: " + node.getLast());
+		
 		// continue refinement
 		return true;
 	}
